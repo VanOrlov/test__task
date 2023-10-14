@@ -1,0 +1,32 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "root",
+    "database": "test__posts",
+    "host": "localhost",
+    "dialect": "postgres",
+    "migrations-path": "migrations",
+    "models-path": "models",
+    "seeders-path": "seeders"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "root",
+    "database": "test__posts",
+    "host": "localhost",
+    "dialect": "postgres",
+    "migrations-path": "migrations",
+    "models-path": "models",
+    "seeders-path": "seeders"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "root",
+    "database": "test__posts",
+    "host": "localhost",
+    "dialect": "postgres",
+    "migrations-path": "migrations",
+    "models-path": "models",
+    "seeders-path": "seeders"
+  }
+}
