@@ -75,9 +75,38 @@ const updateComment = async (req, res) => {
     });
 };
 
+const deleteComment = async (req, res) => {
+  const { articleId, id } = req.params;
+  await Comment.findAll({ where: { articleId }, order: [['id', 'ASC']]})
+    .then((comments) => {
+      if (comments.length > 0) {
+        const commentDelete = comments[id - 1]
+        if (commentDelete) {
+            commentDelete.destroy()
+            .then(() => {
+                res.status(200).json({success: "Комментарий удалён"})
+            })
+            .catch(error => {
+                console.log(error);
+                res.status(500).json({error: "Ошибка сервера"})
+            })
+        } else {
+            res.status(404).json({ error: "Комментарий не найден" });
+        }
+      } else {
+        res.status(404).json({ error: "Комментарии не найдены" });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({ error: "Ошибка сервера" });
+    });
+}
+
 module.exports = {
   getAllComments,
   createComment,
   getComment,
   updateComment,
+  deleteComment
 };
