@@ -37,8 +37,28 @@ const getAllArticles = async (req, res) => {
   }
 };
 
+// Обновление статьи по ID
+const updateArticle = (req, res) => {
+  const { id } = req.params;
+  const { title, text } = req.body;
+  const updatedAt = Date.now()
+  Article.update({ title, text, updatedAt }, { where: { id } })
+    .then(([updatedRows]) => {
+      if (updatedRows === 0) {
+        res.status(404).json({ error: "Статья не найдена" });
+      } else {
+        res.status(200).json({ message: "Статья обновлена" });
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({ error: "Ошибка сервера" });
+    });
+};
+
 module.exports = {
   getAllArticles,
   createArticle,
   getAtricleId,
+  updateArticle,
 };
