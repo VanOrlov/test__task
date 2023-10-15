@@ -4,7 +4,7 @@ const Article = require("../../models/article");
 const createArticle = async (req, res) => {
   try {
     const article = await Article.create(req.body);
-    res.status(201).json(article);
+    res.status(200).json(article);
   } catch (error) {
     res.status(400).json({ error: "Не удалось создать статью" });
   }
@@ -56,9 +56,27 @@ const updateArticle = (req, res) => {
     });
 };
 
+// Удаление статьи по ID
+const deleteArticle = (req, res) => {
+    const { id } = req.params
+    Article.destroy({ where: { id }})
+    .then(deleteRows => {
+        if (deleteRows === 0) {
+            res.status(404).json({error: "Статья не найдена"})
+        } else {
+            res.status(200).json({success: "Статья удалена" })
+        }
+    })
+    .catch(error => {
+        console.log(error);
+        res.status(500).json({error: "Ошибка сервера"})
+    })
+}
+
 module.exports = {
   getAllArticles,
   createArticle,
   getAtricleId,
   updateArticle,
+  deleteArticle
 };
