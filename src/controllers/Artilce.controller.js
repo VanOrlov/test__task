@@ -38,11 +38,11 @@ const getAllArticles = async (req, res) => {
 };
 
 // Обновление статьи по ID
-const updateArticle = (req, res) => {
+const updateArticle = async (req, res) => {
   const { id } = req.params;
   const { title, text } = req.body;
   const updatedAt = Date.now()
-  Article.update({ title, text, updatedAt }, { where: { id } })
+  await Article.update({ title, text, updatedAt }, { where: { id } })
     .then(([updatedRows]) => {
       if (updatedRows === 0) {
         res.status(404).json({ error: "Статья не найдена" });
@@ -57,9 +57,9 @@ const updateArticle = (req, res) => {
 };
 
 // Удаление статьи по ID
-const deleteArticle = (req, res) => {
+const deleteArticle = async (req, res) => {
     const { id } = req.params
-    Article.destroy({ where: { id }})
+    await Article.destroy({ where: { id }})
     .then(deleteRows => {
         if (deleteRows === 0) {
             res.status(404).json({error: "Статья не найдена"})
