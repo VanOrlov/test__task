@@ -23,6 +23,8 @@ const Article = sequelize.define('Article', {
     type: DataTypes.DATE,
     allowNull: true,
   },
+}, {
+  timestamps: false, // Отключить автоматическое установление createdAt и updatedAt
 });
 
 module.exports = Article;

@@ -27,6 +27,8 @@ const Comment = sequelize.define('Comment', {
     type: DataTypes.DATE,
     allowNull: true,
   },
+}, {
+  timestamps: false, // Отключить автоматическое установление createdAt и updatedAt
 });
 
 module.exports = Comment;
