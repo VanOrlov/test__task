@@ -29,7 +29,10 @@ const Comment = sequelize.define('Comment', {
   },
 }, {
   timestamps: false, // Отключить автоматическое установление createdAt и updatedAt
-  tableName: 'Comment' // Устанавливаем имя таблицы явным образом
+  tableName: 'Comment', // Устанавливаем имя таблицы явным образом
+  defaultScope: {
+    order: [['id', 'ASC']] // Сортировка по столбцу "id" по возрастанию
+  }
 });
 
 module.exports = Comment;

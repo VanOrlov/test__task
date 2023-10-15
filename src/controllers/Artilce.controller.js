@@ -42,7 +42,7 @@ const updateArticle = async (req, res) => {
   const { id } = req.params;
   const { title, text } = req.body;
   const updatedAt = Date.now()
-  await Article.update({ title, text, updatedAt }, { where: { id } })
+  await Article.update({ title, text, updatedAt }, { where: { id }, order: [['id', 'ASC']]})
     .then(([updatedRows]) => {
       if (updatedRows === 0) {
         res.status(404).json({ error: "Статья не найдена" });

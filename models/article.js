@@ -25,6 +25,9 @@ const Article = sequelize.define('Article', {
   },
 }, {
   timestamps: false, // Отключить автоматическое установление createdAt и updatedAt
+  defaultScope: {
+    order: [['id', 'ASC']] // Сортировка по столбцу "id" по возрастанию
+  }
 });
 
 module.exports = Article;
