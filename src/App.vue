@@ -1,8 +1,10 @@
 <template>
-  <router-view />
+  <n-message-provider>
+    <router-view />
+  </n-message-provider>
 </template>
 
-<style>
+<style> 
 /* Обунлящий список */
 * {
   padding: 0;
@@ -43,9 +45,10 @@ body {
   -ms-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  font-family: Comfortaa;
+  font-family: Arial, Helvetica, sans-serif;
   color: white;
 }
+
 
 input,
 button,
@@ -87,10 +90,14 @@ h6 {
 }
 /* Обунлящий список */
 
-.app {
+#app {
   display: flex;
   width: 100%;
   min-height: 100vh;
   background: var(--color-blackPerl);
+  font-family: Arial, Helvetica, sans-serif;
+  color: black;
 }
+
+
 </style>
