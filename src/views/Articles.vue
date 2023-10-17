@@ -15,24 +15,29 @@
           <n-input class="form__inputs" v-model:value="formValue.text" placeholder="Содержание" type="textarea"/>
         </n-form-item>
         <n-button type="primary" @click="handleValidateClick" :disabled="isDisabled">
-          Primary
+          Создать
         </n-button>
       </n-form>
-  </n-space>
-
+    </n-space>
+    <div class="grid__articles__container">
+      <ArticlesList/>
+    </div>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import { useMessage } from "naive-ui"
-import ArticlesList from '@/components/ArticlesList';
+import ArticlesList from '../components/ArticlesList';
 import axios from "axios";
 
 export default defineComponent({
   name: 'Articles',
+  components:{
+    ArticlesList
+  },
   setup() {
-    const formRef = ref(null);
+    let formRef = ref(null);
     const message = useMessage();
     let isDisabled = ref(false)
 
@@ -53,8 +58,7 @@ export default defineComponent({
         }
       }
 
-      
-      
+
       async function handleValidateClick(e){
         e.preventDefault();
         message.destroyAll()
@@ -85,12 +89,13 @@ export default defineComponent({
         }
       }
 
+
     return {
       handleValidateClick,
       formRef,
       formValue,
       rules,
-      isDisabled
+      isDisabled,
     };
   }
 })
@@ -105,14 +110,18 @@ export default defineComponent({
     padding: 20px 40px;
   }
   .form{
-    max-width: 550px;
-    width: 100%;
+    min-width: 100%;
   }
   .space > div[role="none"] {
     min-width: 100%;
   } 
   .form__inputs{
     font-size: 16px;
+  }
+  .grid__articles__container{
+    width: 100%;
+    height: auto;
+    padding: 20px 0;
   }
   
 </style>
