@@ -11,7 +11,7 @@
 <script>
 import { defineComponent, onMounted } from 'vue';
 import ArticleItem from '@/components/UI/ArticleItem'
-import { useStore, mapState } from 'vuex'
+import { useStore} from 'vuex'
 
 
 export default defineComponent({

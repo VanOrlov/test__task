@@ -6,6 +6,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: Articles
+  },
+  {
+    path: '/article/:id',
+    name: 'articleId',
+    component: () => import('../views/ArticleId')
   }
 ]
 
