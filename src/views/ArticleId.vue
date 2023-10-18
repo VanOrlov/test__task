@@ -1,14 +1,18 @@
 <template>
     <div class="articles">
-        <n-card v-if="$store.state.article.id" :title="title.title" hoverable>
+        <n-card v-if="$store.state.article.id" :title="title.title" hoverable closable>
             <template #header-extra>
                 <p class="createdAt">{{ formattedDate($store.state.article.createdAt) }}</p>
             </template>
-            <p>{{ $store.state.article.text }}</p>
+            <p class="article__text">{{ $store.state.article.text }}</p>
+            <n-collapse arrow-placement="right" v-if="$store.state.comments.length > 0">
+                <n-collapse-item title="Комментарии" name="1">
+                    <CommentItem v-for="comment in $store.state.comments" :comment="comment"/>
+                </n-collapse-item>
+            </n-collapse>
+            <p v-else>Комментариев пока что нет, напишите первым!</p>
         </n-card>
         <p v-else>Такой статьи не существует</p>
-        <p v-if="$store.state.comments.length > 0">{{ $store.state.comments }}</p>
-        <p v-else>Комментариев пока что нет, напишите первым!</p>
     </div>
 </template>
 
@@ -16,6 +20,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { useStore, mapState } from 'vuex'
 import { useRoute } from 'vue-router'
+import CommentItem from '@/components/UI/CommentItem'
 
 const store = useStore()
 const route = useRoute()
@@ -37,11 +42,6 @@ function formattedDate(data) {
     minutes = minutes < 10 ? `0${minutes}` : minutes
     return `${year}-${month}-${day} ${hours}:${minutes}`
 }
-
-
-console.log(title);
-
-
 </script>
 
 <style scoped>
@@ -54,5 +54,8 @@ console.log(title);
 }
 .createdAt{
     color: rgba(0, 0, 0, .5);
+}
+.article__text{
+    margin-bottom: 20px;
 }
 </style>
