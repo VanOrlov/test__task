@@ -14,16 +14,19 @@
     import { defineProps } from 'vue'
     import axios from 'axios'
     import { useMessage } from "naive-ui"
+    import { useStore } from 'vuex'
     const props = defineProps({
         article: Object
     })
     const id = props.article.id
+    const store = useStore()
     let message = useMessage()
     async function removeArticle(){
         message.destroyAll()
         await axios.delete(`http://192.168.1.2:3000/api/article/${id}`)
         .then(() => {
             message.success('Удалено')
+            store.dispatch('deleteArticle', id)
         })
         .catch((error) => {
             message.error('Ошибка удаления')

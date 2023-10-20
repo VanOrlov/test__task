@@ -5,7 +5,7 @@ export default createStore({
   state: {
     articles: [],
     article: {},
-    comments: {}
+    comments: []
   },
   getters: {
     getArticles: (state) => state.articles
@@ -20,6 +20,18 @@ export default createStore({
     setComments(state, comments){
       state.comments = comments
     },
+    deleteArticle(state, id){
+      state.articles = state.articles.filter((el) => el.id != id)
+    },
+    newArticle(state, article){
+      state.articles.push({title: article.title, text: article.text, createdAt: Date.now()})
+    },
+    deleteComment(state, comment){
+      state.comments = state.comments.filter((el) => el.text != comment.text)
+    },
+    newComment(state, comment){
+      state.comments.push({text: comment.text})
+    }
     
   },
   actions: {
@@ -51,6 +63,19 @@ export default createStore({
       .catch((error) => [
         console.log(error)
       ])
+    },
+
+    deleteArticle({commit}, id){
+      commit('deleteArticle', id)
+    },
+    addArticle({commit}, article){
+      commit('newArticle', article)
+    },
+    deleteComment({commit}, comment){
+      commit('deleteComment', comment)
+    },
+    addComment({commit}, comment){
+      commit('newComment', comment)
     }
   },
 

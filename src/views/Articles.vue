@@ -30,6 +30,7 @@ import { defineComponent, onMounted, ref } from "vue";
 import { useMessage } from "naive-ui"
 import ArticlesList from '../components/ArticlesList';
 import axios from "axios";
+import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'Articles',
@@ -58,7 +59,7 @@ export default defineComponent({
         }
       }
 
-
+      const store = useStore()
       async function handleValidateClick(e){
         e.preventDefault();
         message.destroyAll()
@@ -72,6 +73,8 @@ export default defineComponent({
                 msgReactive.type = "success"
                 msgReactive.content = "Успешно"
                 isDisabled.value = false
+                store.dispatch('addArticle', formValue.value)
+                console.log({...formValue.value});
                 formValue.value.title = ''
                 formValue.value.text = ''
               }, 1000);
