@@ -25,10 +25,12 @@
         message.destroyAll()
         await axios.delete(`http://192.168.1.2:3000/api/article/${id}`)
         .then(() => {
+            console.log('Удалено')
             message.success('Удалено')
             store.dispatch('deleteArticle', id)
         })
         .catch((error) => {
+            console.log(error);
             message.error('Ошибка удаления')
         })
     }

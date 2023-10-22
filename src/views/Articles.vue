@@ -73,7 +73,7 @@ export default defineComponent({
                 msgReactive.type = "success"
                 msgReactive.content = "Успешно"
                 isDisabled.value = false
-                store.dispatch('addArticle', formValue.value)
+                store.dispatch('getArticles')
                 console.log({...formValue.value});
                 formValue.value.title = ''
                 formValue.value.text = ''
