@@ -1,8 +1,9 @@
 <template>
     <div class="articles">
-        <n-card v-if="$store.state.article.id" :title="title.title" hoverable closable>
+        <n-card v-if="$store.state.article.id" :title="title" hoverable>
             <template #header-extra>
                 <p class="createdAt">{{ formattedDate($store.state.article.createdAt) }}</p>
+                <n-button type="warning" @click="showModal = true">Редактировать</n-button>
             </template>
             <p class="article__text">{{ $store.state.article.text }}</p>
             <n-collapse arrow-placement="right" v-if="$store.state.comments.length > 0">
@@ -13,10 +14,17 @@
             <p v-else>Комментариев пока что нет, напишите первым!</p>
             <div class="create__comment">
                 <n-input v-model:value="comment.text" placeholder="Напишите комментарий" />
-                <n-button @click="createComment" type="primary">Создать</n-button>
+                <n-button :disabled="commentCreate" @click="createComment" type="primary">Создать</n-button>
             </div>
         </n-card>
         <p v-else>Такой статьи не существует</p>
+        <n-modal title="Редактирование статьи" v-model:show="showModal" class="custom-card" preset="card" :style="bodyStyle">
+            <div class="modal__input__container">
+                <n-input placeholder="Заголовок" v-model:value="editValue.title"></n-input>
+                <n-input placeholder="Содержание" v-model:value="editValue.text" type="textarea"></n-input>
+                <n-button :loading="button__loading" :disabled="button__disabled" class="editButton" type="success" @click="editingArticle">Редактировать</n-button>
+            </div>
+        </n-modal>
     </div>
 </template>
 
@@ -32,7 +40,7 @@ const store = useStore()
 const route = useRoute()
 const message = useMessage()
 const id = route.params.id
-let title = ref([])
+let title = computed(() => store.state.article.title)
 let titleComments = ref(`Комментарии (${store.state.comments.length})`)
 watchEffect(() => {
   titleComments.value = `Коммантарии (${store.state.comments.length})`
@@ -41,10 +49,10 @@ watchEffect(() => {
 let comment = ref({
     text: ''
 })
+let commentCreate = computed(() => comment.value.text == '')
 onMounted(async () => {
     await store.dispatch('getOneArticle', id)
     await store.dispatch('getComment', id)
-    title.value = store.state.article
 })
 
 function formattedDate(data) {
@@ -71,6 +79,34 @@ async function createComment(){
         console.log(error)
     })
 }
+
+const showModal = ref(false)
+let editValue = ref({
+    title: '',
+    text: ''
+})
+
+const bodyStyle = {
+    width: "600px"
+}
+const button__disabled = computed(() => editValue.value.title == '' || editValue.value.text == '')
+let button__loading = ref(false)
+
+async function editingArticle(){
+    button__loading.value = true
+    setTimeout(async () => {
+        await axios.patch(`http://192.168.1.2:3000/api/article/${id}`, {...editValue.value})
+        .then(() => {
+            button__loading.value = false
+            showModal.value = false
+            store.dispatch('getOneArticle', id)
+            store.dispatch('getComment', id)
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }, 1000);
+}
 </script>
 
 <style scoped>
@@ -83,6 +119,7 @@ async function createComment(){
 }
 .createdAt{
     color: rgba(0, 0, 0, .5);
+    margin-right: 10px;
 }
 .article__text{
     margin-bottom: 20px;
@@ -91,6 +128,16 @@ async function createComment(){
     margin-top: 30px;
     display: flex;
     gap: 20px;
+}
 
+.modal__input__container{
+    display: flex;
+    width: 100%;
+    gap: 20px;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.editButton{
+    width: fit-content;
 }
 </style>
