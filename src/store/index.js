@@ -5,7 +5,8 @@ export default createStore({
   state: {
     articles: [],
     article: {},
-    comments: []
+    comments: [],
+    commentsAll: {}
   },
   getters: {
     getArticles: (state) => state.articles
@@ -31,6 +32,19 @@ export default createStore({
     },
     newComment(state, comment){
       state.comments.push({text: comment.text})
+    },
+    setCommentsAll(state, comments){
+      let groupedComments = {}
+      
+      comments.forEach(item => {
+        const { articleId } = item;
+        if (!groupedComments[articleId]) {
+          groupedComments[articleId] = [];
+        }
+        groupedComments[articleId].push(item);
+      });
+
+      state.commentsAll = groupedComments
     }
     
   },
@@ -76,6 +90,17 @@ export default createStore({
     },
     addComment({commit}, comment){
       commit('newComment', comment)
+    },
+
+    async setCommentsAll({commit}, dateRange){
+      await axios.get(`http://192.168.1.2:3000/api/analytic/comments/?dateFrom=${Math.round(dateRange[0] / 1000)}&dateTo=${Math.round(dateRange[1] / 1000)}`)
+      .then((res) => {
+        console.log(res.data);
+        commit('setCommentsAll', res.data)
+      })
+      .catch((error) => {
+        console.log(error);
+      })
     }
   },
 

@@ -71,7 +71,7 @@ async function createComment(){
     await axios.post(`http://192.168.1.2:3000/api/article/${id}/comment`, {...comment.value})
     .then(() => {
         message.success('Успешно')
-        store.dispatch('addComment', comment.value)
+        store.dispatch('getComment', id)
         comment.value.text = ''
     })
     .catch((error) => {

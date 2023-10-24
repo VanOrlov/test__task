@@ -11,7 +11,12 @@ const routes = [
     path: '/article/:id',
     name: 'articleId',
     component: () => import('../views/ArticleId')
-  }
+  },
+  {
+    path: '/analytic',
+    name: 'analytic',
+    component: () => import('../views/Analytic')
+  },
 ]
 
 const router = createRouter({
