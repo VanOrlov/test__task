@@ -1,23 +1,4 @@
 {
-<<<<<<< HEAD
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon src/index.js"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.18.2",
-    "nodemon": "^3.0.1",
-    "pg": "^8.11.3",
-    "sequelize": "^6.33.0",
-    "sequelize-cli": "^6.6.1"
-  }
-=======
   "name": "frontend",
   "version": "1.0.0",
   "private": true,
@@ -53,5 +34,4 @@
   "keywords": [],
   "license": "ISC",
   "readme": "ERROR: No README data found!"
->>>>>>> 1457a5bbcb7c1d652f07e18926424f5bb9a46830
 }
